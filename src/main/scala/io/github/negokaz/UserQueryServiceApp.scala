@@ -29,7 +29,7 @@ object UserQueryServiceApp extends App {
     new CircuitBreaker(
       system.scheduler, // ActorSystem のスケジューラ
       maxFailures = 5, // エラーカウントがこの数字になるとリクエストを遮断
-      callTimeout = 10.seconds, // リクエストをタイムアウトさせる時間
+      callTimeout = 3.seconds, // リクエストをタイムアウトさせる時間
       resetTimeout = 3.seconds, // リクエストの遮断を一時的に取り止めるまでの時間
       maxResetTimeout = 30.seconds, // resetTimeout の上限
       exponentialBackoffFactor = 1.5 // 再試行の度に resetTimeout の時間を増やす倍数

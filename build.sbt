@@ -30,10 +30,14 @@ lazy val root = (project in file(".")).
       streams.value.log.info(s"Running h2 server: ${server.getURL}")
       server.run()
     },
+    fullRunTask(futureTimeout, Compile, "io.github.negokaz.FutureTimeoutApp"),
     fullRunTask(userQueryService, Compile, "io.github.negokaz.UserQueryServiceApp"),
-    fullRunTask(userRegistryService, Compile, "io.github.negokaz.UserRegistryServiceApp")
+    fullRunTask(userRegistryService, Compile, "io.github.negokaz.UserRegistryServiceApp"),
+    fullRunTask(slowUserRegistryService, Compile, "io.github.negokaz.UserRegistryServiceApp", "high-load")
   )
 
 lazy val h2Server = TaskKey[Unit]("h2-server", "start h2 server")
+lazy val futureTimeout = TaskKey[Unit]("future-timeout", "run Future Timeout sample")
 lazy val userQueryService = TaskKey[Unit]("user-query-service", "start User Query Service")
 lazy val userRegistryService = TaskKey[Unit]("user-registry-service", "start User Registry Service")
+lazy val slowUserRegistryService = TaskKey[Unit]("slow-user-registry-service", "start User Registry Service")

@@ -53,7 +53,12 @@ object UserRegistryServiceApp extends App with JsonSupport {
             get {
               val users: Future[Seq[User]] =
                 (userRegistryActor ? GetUsers).mapTo[Seq[User]]
-              complete(users)
+              val maybeSlowUsers = users.map { users =>
+                // 高負荷をシュミレート
+                if (args.contains("high-load")) { Thread.sleep(4000) }
+                users
+              }
+              complete(maybeSlowUsers)
             },
             // curl -X POST -H 'Content-Type: application/json' -d '{"name": "hoge"}' http://localhost:8080/users
             post {
